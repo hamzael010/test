@@ -53,3 +53,9 @@ Function Start-Failover
 }
 
   Send-AlertMessage -message "NVA Alert: Failback to Primary FW1"
+
+
+$Password = ConvertTo-SecureString $env:SP_PASSWORD -AsPlainText -Force
+$Credential = New-Object System.Management.Automation.PSCredential ($env:SP_USERNAME, $Password)
+$AzureEnv = Get-AzureRmEnvironment -Name $env:AZURECLOUD
+Add-AzureRmAccount -ServicePrincipal -Tenant $env:TENANTID -Credential $Credential -SubscriptionId $env:SUBSCRIPTIONID -Environment $AzureEnv
